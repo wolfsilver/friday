@@ -1,0 +1,109 @@
+{
+	"name": "copilot-friday",
+	"publisher": "R",
+	"displayName": "Copilot Friday",
+	"description": "GitHub Copilot chat extension, providing a quick prompts approach.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/wolfsilver/friday"
+	},
+	"version": "0.1.0",
+	"icon": "avatar.jpg",
+	"engines": {
+		"vscode": "^1.92.0"
+	},
+	"categories": [
+		"AI",
+		"Chat"
+	],
+	"activationEvents": [],
+	"contributes": {
+		"chatParticipants": [
+			{
+				"id": "copilot.friday",
+				"fullName": "Friday",
+				"name": "friday",
+				"description": "Hello! What can I do for you?",
+				"isSticky": true,
+				"commands": [
+					{
+						"name": "randomTeach",
+						"description": "Pick at random a computer science concept then explain it in purfect way of a cat"
+					},
+					{
+						"name": "cleanliness",
+						"description": "Improve code cleanliness"
+					},
+					{
+						"name": "refactor_function",
+						"description": "Refactor a function"
+					},
+					{
+						"name": "refactor_components",
+						"description": "Refactor components"
+					},
+					{
+						"name": "refactor_solid",
+						"description": "Refactor to SOLID principles"
+					},
+					{
+						"name": "refactor_if_else",
+						"description": "Refactor if-else statements"
+					},
+					{
+						"name": "refactor_performance",
+						"description": "Refactor for performance"
+					},
+					{
+						"name": "refactor_security",
+						"description": "Refactor for security"
+					},
+					{
+						"name": "refactor_concurrency",
+						"description": "Refactor for concurrency"
+					},
+					{
+						"name": "custom",
+						"description": "Custom prompt",
+						"isSticky": true
+					}
+				],
+				"disambiguation": [
+					{
+						"categoryName": "cat",
+						"description": "The user wants to learn a specific computer science topic in an informal way.",
+						"examples": [
+							"Teach me C++ pointers using metaphors",
+							"Explain to me what is a linked list in a simple way",
+							"Can you explain to me what is a function in programming?"
+						]
+					}
+				]
+			}
+		],
+		"commands": [
+			{
+				"command": "friday.namesInEditor",
+				"title": "Use friday in Editor"
+			}
+		]
+	},
+	"main": "./out/extension.js",
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint \"src/**/*.ts\"",
+		"watch": "tsc -watch -p ./"
+	},
+	"dependencies": {
+		"@vscode/prompt-tsx": "^0.2.10-alpha"
+	},
+	"devDependencies": {
+		"@types/node": "^20.5.9",
+		"@types/vscode": "^1.92.0",
+		"@typescript-eslint/eslint-plugin": "^7.14.0",
+		"@typescript-eslint/parser": "^7.14.0",
+		"eslint": "^8.26.0",
+		"typescript": "^5.5.2"
+	}
+}
