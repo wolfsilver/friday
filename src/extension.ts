@@ -2,6 +2,7 @@ import { renderPrompt } from '@vscode/prompt-tsx';
 import * as vscode from 'vscode';
 import { Prompt, PromptProps } from './play';
 import { VsCodeFS } from './utils';
+import fs from 'fs';
 
 const FRIDAY_NAMES_COMMAND_ID = 'friday.namesInEditor';
 const FRIDAY_PARTICIPANT_ID = 'copilot.friday';
@@ -10,6 +11,11 @@ interface IFridayChatResult extends vscode.ChatResult {
 	metadata: {
 		command: string;
 	};
+}
+
+interface CommandItem {
+	name: string;
+	description: string;
 }
 
 // Use gpt-4o since it is fast and high quality. gpt-3.5-turbo and gpt-4 are also available.
@@ -277,6 +283,49 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 		)
 	);
+
+	const matchCommand = vscode.commands.registerCommand('friday.updateCommands', () => updateCommand(context));
+	context.subscriptions.push(matchCommand);
+}
+
+function updateCommand(context: vscode.ExtensionContext) {
+	const file = vscode.Uri.joinPath(context.extensionUri, 'package.json');
+
+	const config = vscode.workspace.getConfiguration('friday.prompts');
+	console.log('#config', config);
+
+	// get the content of the file
+	const content = fs.readFileSync(file.fsPath, 'utf-8');
+	const json = JSON.parse(content);
+
+
+	// update command
+	const commands = json.contributes.chatParticipants[0].commands;
+	const newCommands = Object.keys(config).map((key) => {
+		if (typeof config[key] !== 'string') {
+			return null;
+		}
+		return {
+			name: key,
+			description: config[key],
+		};
+	}).filter((item) => item !== null);
+
+	newCommands.forEach((command: CommandItem) => {
+		if (!commands.some((c: any) => {
+			if (c.name === command.name) {
+				c.description = command.description;
+				return true;
+			}
+		})) {
+			commands.push(command);
+		}
+	});
+
+	console.log('commands', JSON.stringify(json, null, 2));
+
+	// write the content back to the file
+	fs.writeFileSync(file.fsPath, JSON.stringify(json, null, 2));
 }
 
 function handleError(

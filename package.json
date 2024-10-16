@@ -7,7 +7,7 @@
 		"type": "git",
 		"url": "https://github.com/wolfsilver/friday"
 	},
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"icon": "avatar.jpg",
 	"engines": {
 		"vscode": "^1.92.0"
@@ -70,7 +70,7 @@
 				],
 				"disambiguation": [
 					{
-						"categoryName": "cat",
+						"category": "friday",
 						"description": "The user wants to learn a specific computer science topic in an informal way.",
 						"examples": [
 							"Teach me C++ pointers using metaphors",
@@ -83,10 +83,23 @@
 		],
 		"commands": [
 			{
+				"command": "friday.updateCommands",
+				"title": "Update Commands"
+			},
+			{
 				"command": "friday.namesInEditor",
 				"title": "Use friday in Editor"
 			}
-		]
+		],
+		"configuration": {
+			"title": "Copilot Friday",
+			"properties": {
+				"friday.prompts": {
+					"type": "object",
+					"description": "Configuration for Copilot Friday prompts."
+				}
+			}
+		}
 	},
 	"main": "./out/extension.js",
 	"scripts": {
